@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Header
 from database.mongodb import BCN
+from bson import json_util
+from json import loads
 
 router = APIRouter()
 
@@ -9,6 +11,7 @@ def saludo(name):
         "saludo": name
     }
 
-@router.get("/{collection}")
-def get_data(collection):
-    return list(BCN.collection.find({}))
+@router.get("/collection")
+def get_data():
+    data = BCN['accidents']
+    return loads(json_util.dumps(data.find({})))
