@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Header
+from fastapi import APIRouter
 from database.mongodb import BCN
 from bson import json_util
 from json import loads
