@@ -13,56 +13,17 @@ st.text('This page shows all public transports stations in Barcelona that you ca
 and plot a marker for each public transport station, having each type of transport in a colour
 '''
 
-transports = {'Bus': ['K014', 'K015'],
-    'Bus_airport': ['K016'],
-    'Bus_station': ['K017'],
-    'Metro': ['K001'],
-    'Railway': ['K002'],
-    'Renfe': ['K003'],
-    'Airport_train': ['K004'],
-    'Maritime_station': ['K008'],
-    'Funicular': ['K009'],
-    'Cableway': ['K010'],
-    'Tramvia': ['K011'],
-    }
-
-transports_icons = {'Bus': 'bus',
-    'Bus_airport': 'bus',
-    'Bus_station': 'bus',
-    'Metro': 'train-tunnel',
-    'Railway': 'train-track',
-    'Renfe': 'train',
-    'Airport_train': 'train-subway',
-    'Maritime_station': 'ship',
-    'Funicular': 'up-from-line',
-    'Cableway': 'cable-car',
-    'Tramvia': 'train-tram',
-    }
-
-transports_tooltip = {'Bus': 'Bus',
-    'Bus_airport': 'Bus-airport',
-    'Bus_station': 'Bus-station',
-    'Metro': 'Subway',
-    'Railway': 'Railway',
-    'Renfe': 'RENFE',
-    'Airport_train': 'Airport-train',
-    'Maritime_station': 'Maritime-station',
-    'Funicular': 'Funicular',
-    'Cableway': 'Cableway',
-    'Tramvia': 'Tramvia',
-    }
-
-transports_colors = {'Bus': 'red',
-    'Bus_airport': 'red',
-    'Bus_station': 'red',
-    'Metro': 'green',
-    'Railway': 'green',
-    'Renfe': 'green',
-    'Airport_train': 'green',
-    'Maritime_station': 'blue',
-    'Funicular': 'beige',
-    'Cableway': 'purple',
-    'Tramvia': 'orange',
+transports = {'Bus': {'Code': ['K014', 'K015'], 'icon': 'bus', 'tooltip': 'Bus', 'color':'red'},
+    'Bus_airport': {'Code':['K016'], 'icon': 'bus', 'tooltip': 'Bus-airpot', 'color':'red'},
+    'Bus_station': {'Code':['K017'], 'icon': 'bus', 'tooltip': 'Bus-station', 'color':'red'},
+    'Metro': {'Code':['K001'], 'icon': 'train-tunnel', 'tooltip': 'Subway', 'color':'green'},
+    'Railway': {'Code':['K002'], 'icon': 'train-track', 'tooltip': 'Railway', 'color':'green'},
+    'Renfe': {'Code':['K003'], 'icon': 'train', 'tooltip': 'RENFE', 'color':'green'},
+    'Airport_train': {'Code':['K004'], 'icon': 'train-subway', 'tooltip': 'Airport-train', 'color':'green'},
+    'Maritime_station': {'Code':['K008'], 'icon': 'ship', 'tooltip': 'Maritime-station', 'color':'blue'},
+    'Funicular': {'Code':['K009'], 'icon': 'up-from-line', 'tooltip': 'Funicular', 'color':'beige'},
+    'Cableway': {'Code':['K010'], 'icon': 'cable-car', 'tooltip': 'Cableway', 'color':'purple'},
+    'Tramvia': {'Code':['K011'], 'icon': 'train-tram', 'tooltip': 'Tramvia', 'color':'orange'}
     }
 
 barna_coords = [41.346176, 2.168365] # Latitude, Longitude
@@ -81,8 +42,8 @@ for key, value in transports.items():
     for station in transport_type:
         Marker([station['Location']['coordinates'][1], station['Location']['coordinates'][0]], 
                 popup=f"<i>{station['Station']}</i>", 
-                tooltip=transports_tooltip[key],
-                icon=Icon(icon=transports_icons[key], 
-                        color=transports_colors[key])).add_to(mapa_barna)
+                tooltip=transports[key]['tooltip'],
+                icon=Icon(icon=transports[key]['icon'], 
+                        color=transports[key]['color'])).add_to(mapa_barna)
 
 st_mapa_barna_completo = st_folium(mapa_barna)

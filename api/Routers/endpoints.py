@@ -22,7 +22,7 @@ def get_transport_type(type):
     'Maritime_station': ['K008'],
     'Funicular': ['K009'],
     'Cableway': ['K010'],
-    'Tramvia': ['K011'],
+    'Tramvia': ['K011']
     }
     data = BCN['geo_transports']
     type_json = loads(json_util.dumps(data.find({'Code':{"$in": transports[type]}}, {"_id": 0})))
