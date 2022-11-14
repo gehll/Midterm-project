@@ -60,7 +60,7 @@ transports_colors = {'Bus': 'red',
     'Renfe': 'green',
     'Airport_train': 'green',
     'Maritime_station': 'blue',
-    'Funicular': 'yellow',
+    'Funicular': 'beige',
     'Cableway': 'purple',
     'Tramvia': 'orange',
     }
@@ -71,7 +71,7 @@ barna_marker = Marker(barna_coords,
                         popup="<i>Barcelona city</i>", 
                         tooltip=barna_tooltip,
                         icon=Icon(icon="city"))
-mapa_barna = Map(location=barna_coords, zoom_start=10)
+mapa_barna = Map(location=barna_coords, zoom_start=11)
 mapa_barna.add_child(barna_marker)
 
 # Now add all public transport stations
