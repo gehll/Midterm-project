@@ -26,18 +26,25 @@ transports = {'Bus': {'Code': ['K014', 'K015'], 'icon': 'bus', 'tooltip': 'Bus',
     'Tramvia': {'Code':['K011'], 'icon': 'train-tram', 'tooltip': 'Tramvia', 'color':'orange'}
     }
 
+selected_types = st.multiselect('Choose the type of transport you want to visualize (max 2)',
+                                [key for key, _ in transports.items()],
+                                max_selections=2)
+
+
+# Barcelon map
+
 barna_coords = [41.346176, 2.168365] # Latitude, Longitude
 barna_tooltip = "City name"
 barna_marker = Marker(barna_coords, 
                         popup="<i>Barcelona city</i>", 
                         tooltip=barna_tooltip,
-                        icon=Icon(icon="city"))
+                        icon=Icon(icon="city", color='black'))
 mapa_barna = Map(location=barna_coords, zoom_start=11)
 mapa_barna.add_child(barna_marker)
 
-# Now add all public transport stations
+# Now add all public transport stations that haven been selected with the multiselect
 
-for key, value in transports.items():
+for key in selected_types:
     transport_type = get_data.get_transport_type(key)
     for station in transport_type:
         Marker([station['Location']['coordinates'][1], station['Location']['coordinates'][0]], 
