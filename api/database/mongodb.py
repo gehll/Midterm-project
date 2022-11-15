@@ -1,9 +1,10 @@
+import sys, os
+sys.path.append(os.path.abspath('..'))
 from pymongo import MongoClient
-from dotenv import load_dotenv
-import os
+from config import dburl
 
-# Cargamos el entorno
-load_dotenv()
+# Conect to mongodb
+client = MongoClient(dburl)
 
-client = MongoClient(os.getenv("url"))
+# Get transport data of Barcelona
 BCN = client.get_database("BCN")

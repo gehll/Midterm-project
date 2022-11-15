@@ -1,5 +1,4 @@
-#!/bin/sh
+#!/user/bin/env bash
 
-#bash script to run api locally
 cd api
-uvicorn main:bane --reload
+uvicorn main:bane --reload --host 0.0.0.0 --port 8000
