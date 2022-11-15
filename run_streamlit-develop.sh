@@ -1,4 +1,3 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# Script to run streamlit app locally
-streamlit run streamlit_files/main.py
+streamlit run streamlit/main.py

@@ -1,10 +1,10 @@
 import streamlit as st
-import streamlit.components.v1 as components
-import plotly.graph_objs as go
 from data_st import get_data
 from folium import Map, Marker, Icon
 from streamlit_folium import st_folium
+from transports import transports
 
+# ADD title and welcome message
 st.title('My mid-term CORE project: Barcelona public transport stations')
 st.text('This page shows all public transports stations in Barcelona that you can find in the following kaggle dataset: https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets')
 
@@ -13,21 +13,8 @@ st.text('This page shows all public transports stations in Barcelona that you ca
 and plot a marker for each public transport station, having each type of transport in a colour
 '''
 
-transports = {'Bus': {'Code': ['K014', 'K015'], 'icon': 'bus', 'tooltip': 'Bus'},
-    'Bus_airport': {'Code':['K016'], 'icon': 'bus', 'tooltip': 'Bus-airpot'},
-    'Bus_station': {'Code':['K017'], 'icon': 'bus', 'tooltip': 'Bus-station'},
-    'Metro': {'Code':['K001'], 'icon': 'subway', 'tooltip': 'Subway'},
-    'Railway': {'Code':['K002'], 'icon': 'train', 'tooltip': 'Railway'},
-    'Renfe': {'Code':['K003'], 'icon': 'train', 'tooltip': 'RENFE'},
-    'Airport_train': {'Code':['K004'], 'icon': 'train', 'tooltip': 'Airport-train'},
-    'Maritime_station': {'Code':['K008'], 'icon': 'ship', 'tooltip': 'Maritime-station'},
-    'Funicular': {'Code':['K009'], 'icon': 'arrow-up', 'tooltip': 'Funicular'},
-    'Cableway': {'Code':['K010'], 'icon': 'square-o', 'tooltip': 'Cableway'},
-    'Tramvia': {'Code':['K011'], 'icon': 'minus', 'tooltip': 'Tramvia'}
-    }
-
 selected_types = st.multiselect('Choose the type of transport you want to visualize (max 2)',
-                                [key for key, _ in transports.items()],
+                                [key for key in transports.keys()],
                                 max_selections=2)
 
 
@@ -58,3 +45,27 @@ for key in selected_types:
     i += 1
 
 st_mapa_barna_completo = st_folium(mapa_barna)
+
+
+'''
+The second part of the streamlit app consist of an interactive map. The app will ask you a location (un coords or a direction),
+the type of transport that you want (max 2) and the lines that you are interested.
+
+This will create a geoquerie that will display the closests stations to the given location
+'''
+
+st.text('Next, introduc a location to get the closests stations')
+
+# TODO GET LOCATION (In coords and also a street and number)
+
+
+
+st.text('Which types of transport are you looking for?')
+
+# TODO GET TYPE OF TRANSPORT
+
+
+st.text('Which lines are you interested in?')
+
+# TODO GET DESIRED LINES
+
