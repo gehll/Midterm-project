@@ -3,4 +3,4 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-dburl = os.getenv("url")
+DBURL = os.getenv("URL")
