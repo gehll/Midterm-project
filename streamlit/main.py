@@ -49,7 +49,7 @@ barna_marker = Marker(barna_coords,
                       popup="<i>Barcelona city</i>",
                       tooltip=barna_tooltip,
                       icon=Icon(icon="home", color='black', prefix='fa'))
-mapa_barna = Map(location=barna_coords, zoom_start=11)
+mapa_barna = Map(location=barna_coords, zoom_start=11, control_scale=True)
 mapa_barna.add_child(barna_marker)
 
 
@@ -87,22 +87,43 @@ st_mapa_barna_completo = st_folium(mapa_barna)
 ###################################################################################################################################
 
 
-st.text('Next, introduce a location to get the closests stations')
+st.subheader('Next, introduce a location to get the closests stations')
 
 # TODO GET LOCATION (In coords and also a street and number)
-# Hacer select entre coords y location
+select_type = st.multiselect('Choose how to provide the location',
+                             ['coordinates', 'address'],
+                             max_selections=1)
 
+if select_type == 'address':
+    location = st.text_input('Insert the address', None)
+else:
+    latitude = st.number_input(
+        'Latitude', min_value=-90.0, max_value=90.0, value=37.067, help='Latitude is measured in degrees from the ecuator to the N or S')
+    Longitude = st.number_input(
+        'Longitude', min_value=-180.0, max_value=180.0, value=-2.529, help='Longitude is measured in degrees from the prime meridian to the E or W')
 
-st.text('Which types of transport are you looking for?')
+st.subheader('Which types of transport are you looking for?')
 
 # TODO GET TYPE OF TRANSPORT
 
+transport_types = st.multiselect('Choose the type of transport you want to visualize (max 2)',
+                                 [key for key in transports.keys()],
+                                 max_selections=2)
 
 st.text('Which lines are you interested in?')
 
 # TODO GET DESIRED LINES
 
+# Get data filtered by type of transport
 
-selected_types = st.multiselect('Choose the type of transport you want to visualize (max 2)',
-                                [key for key in transports.keys()],
-                                max_selections=2)
+# Get all lines that those types of transport have
+
+# Display multiselect with all the lines posible
+
+
+# TODO plot map, centered at the location given with a marker of a person. put VIEW in 13-14
+
+
+# TODO Make geoquery
+
+# For each of the points from the geoquery, add each one of them as markers with icons and all info as in welcome map.
