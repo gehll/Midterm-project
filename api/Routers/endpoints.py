@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Query
 from database.mongodb import BCN
 from bson import json_util
 from json import loads
+from geopy.geocoders import Nominatim
 
 # Init router
 router = APIRouter()
@@ -73,6 +74,15 @@ def make_geoquery(types: list[str] = Query(default=["Metro", "Tramvia"]),
                   lines: list[str] = Query(
                       default=['L6', 'L11', 'L1', 'L5', 'L3', 'L2', 'L4', 'BLAU']),
                   location: list[str] = Query(default=['37.067', '-2.529'])):
+
+    if len(location) == 1:
+        geolocator = Nominatim(user_agent="BCN")
+        locator = geolocator.geocode(location[0])
+        lat = locator.latitude
+        long = locator.longitude
+    else:
+        lat = float(location[0])
+        long = float(location[1])
 
     # Pipeline to unwind Lines because in some cases is an array, so we wan to filter by all type of transports disered but also it has to be one of the lines desired.
     pipeline = [
