@@ -96,12 +96,14 @@ select_type = st.multiselect('Choose how to provide the location',
                              max_selections=1)
 
 if select_type == 'address':
-    location = st.text_input('Insert the address', None)
+    location = [st.text_input('Insert the address', None)]
 else:
     latitude = st.number_input(
         'Latitude', min_value=-90.0, max_value=90.0, value=37.067, help='Latitude is measured in degrees from the ecuator to the N or S')
-    Longitude = st.number_input(
+    longitude = st.number_input(
         'Longitude', min_value=-180.0, max_value=180.0, value=-2.529, help='Longitude is measured in degrees from the prime meridian to the E or W')
+    location = [str(latitude), str(longitude)]
+
 
 st.subheader('Which types of transport are you looking for?')
 
@@ -130,6 +132,12 @@ selected_lines = st.multiselect('Choose the lines that you want to look for',
                                 [line for line in lines])
 
 # TODO Make geoquery
+
+geo_params = {
+    "types": transport_types,
+    "lines": selected_lines,
+    "location": location
+}
 
 
 # TODO plot map, centered at the location given with a marker of a person. put VIEW in 13-14

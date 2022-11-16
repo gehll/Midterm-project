@@ -69,12 +69,16 @@ def get_transport_type_sample(type, limit: int = 0, rawData: int = 1):
 
 @router.get("/geoquery")
 # Get types of trasport and lines as lists
-def make_geoquery(types: list[str] = Query(default=["Metro", "Tramvia"]), lines: list[str] = Query(default=['L6', 'L11', 'L1', 'L5', 'L3', 'L2', 'L4', 'BLAU'])):
+def make_geoquery(types: list[str] = Query(default=["Metro", "Tramvia"]),
+                  lines: list[str] = Query(
+                      default=['L6', 'L11', 'L1', 'L5', 'L3', 'L2', 'L4', 'BLAU']),
+                  location: list[str] = Query(default=['37.067', '-2.529'])):
 
+    # Pipeline to unwind Lines because in some cases is an array, so we wan to filter by all type of transports disered but also it has to be one of the lines desired.
     pipeline = [
+        {"$unwind": "$Lines"},
         {"$match": {"Code": {"$in": [
             code for type in types for code in transports[type]]}, "Lines": {"$in": lines}}},
-        {"$unwind": "$Lines"},
         {"$project": {"_id": 0}}
     ]
 
