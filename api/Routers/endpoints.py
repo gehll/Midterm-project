@@ -84,11 +84,25 @@ def make_geoquery(types: list[str] = Query(default=["Metro", "Tramvia"]),
         lat = float(location[0])
         long = float(location[1])
 
+    reference = {
+        "type": "Point",
+        "coordinates": [long, lat]
+    }
+
     # Pipeline to unwind Lines because in some cases is an array, so we wan to filter by all type of transports disered but also it has to be one of the lines desired.
     pipeline = [
         {"$unwind": "$Lines"},
         {"$match": {"Code": {"$in": [
-            code for type in types for code in transports[type]]}, "Lines": {"$in": lines}}},
+            code for type in types for code in transports[type]]},
+            "Lines": {"$in": lines},
+         "Location": {
+            "$near": {
+                "$geometry": reference,
+                "$maxDistance": 500
+            }
+        }
+        }
+        },
         {"$project": {"_id": 0}}
     ]
 
