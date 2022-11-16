@@ -6,7 +6,7 @@ def get_lines(data):
     for transportType in data:
         for doc in transportType:
             if isinstance(doc['Lines'], list):
-                for line in doc:
+                for line in doc['Lines']:
                     if line not in lines:
                         lines.append(line)
             else:

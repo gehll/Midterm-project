@@ -5,7 +5,7 @@ from streamlit_folium import st_folium
 from transports import transports
 import pandas as pd
 from clean_raw import clean_raw
-import useful
+from useful.get_lines import get_lines
 
 
 # ADD title and welcome message
@@ -122,14 +122,17 @@ transport_data = [get_data.get_transport_type(
 
 # Get all lines that those types of transport have
 
-lines = useful.get_lines(transport_data)
+lines = get_lines(transport_data)
 
 # Display multiselect with all the lines posible
+
+selected_lines = st.multiselect('Choose the lines that you want to look for',
+                                [line for line in lines])
+
+# TODO Make geoquery
 
 
 # TODO plot map, centered at the location given with a marker of a person. put VIEW in 13-14
 
-
-# TODO Make geoquery
 
 # For each of the points from the geoquery, add each one of them as markers with icons and all info as in welcome map.
