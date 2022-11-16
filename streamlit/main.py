@@ -5,6 +5,7 @@ from streamlit_folium import st_folium
 from transports import transports
 import pandas as pd
 from clean_raw import clean_raw
+import useful
 
 
 # ADD title and welcome message
@@ -116,7 +117,12 @@ st.text('Which lines are you interested in?')
 
 # Get data filtered by type of transport
 
+transport_data = [get_data.get_transport_type(
+    type) for type in transport_types]  # Lis of lists with JSON documents
+
 # Get all lines that those types of transport have
+
+lines = useful.get_lines(transport_data)
 
 # Display multiselect with all the lines posible
 
