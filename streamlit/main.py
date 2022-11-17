@@ -101,9 +101,9 @@ if select_type:
         location = [location]
     else:
         latitude = st.number_input(
-            'Latitude', min_value=-90.0, max_value=90.0, value=41.2413, help='Latitude is measured in degrees from the ecuator to the N or S')
+            'Latitude', min_value=-90.0, max_value=90.0, value=41.22, help='Latitude is measured in degrees from the ecuator to the N or S')
         longitude = st.number_input(
-            'Longitude', min_value=-180.0, max_value=180.0, value=2.1028, help='Longitude is measured in degrees from the prime meridian to the E or W')
+            'Longitude', min_value=-180.0, max_value=180.0, value=2.08, help='Longitude is measured in degrees from the prime meridian to the E or W')
         location = [str(latitude), str(longitude)]
 
 
@@ -148,7 +148,7 @@ for tipo in transport_types:
 
 
 # TODO plot map, centered at the location given with a marker of a person. put VIEW in 13-14
-if len(select_type) > 0 and len(transport_types) > 0 and len(selected_lines) > 0:
+if select_type and transport_types and selected_lines:
     if select_type[0] == 'address':
         geolocator = Nominatim(user_agent="location")
         locator = geolocator.geocode(select_type[0])
