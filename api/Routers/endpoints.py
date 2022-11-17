@@ -100,7 +100,7 @@ def make_geoquery(type: str = 'Metro',
         "Location": {
             "$near": {
                 "$geometry": reference,
-                "$maxDistance": 5000
+                "$maxDistance": 20000
             }
         }
     }

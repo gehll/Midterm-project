@@ -101,9 +101,9 @@ if select_type:
         location = [location]
     else:
         latitude = st.number_input(
-            'Latitude', min_value=-90.0, max_value=90.0, value=41.22, help='Latitude is measured in degrees from the ecuator to the N or S')
+            'Latitude', min_value=-90.0, max_value=90.0, help='Latitude is measured in degrees from the ecuator to the N or S')
         longitude = st.number_input(
-            'Longitude', min_value=-180.0, max_value=180.0, value=2.08, help='Longitude is measured in degrees from the prime meridian to the E or W')
+            'Longitude', min_value=-180.0, max_value=180.0, help='Longitude is measured in degrees from the prime meridian to the E or W')
         location = [str(latitude), str(longitude)]
 
 
@@ -169,7 +169,7 @@ if select_type and transport_types and selected_lines:
         for doc in type:
             Marker([doc['Location']['coordinates'][1], doc['Location']['coordinates'][0]],
                    popup=f"<i>{doc['Station']}</i>",
-                   tooltip=transports[doc['Code']]['tooltip'],
+                   tooltip=transports[transport_types[idx]]['tooltip'],
                    icon=Icon(icon=transports[transport_types[idx]]['icon'],
                              color=transports[transport_types[idx]]['color'], prefix='fa')).add_to(mapa_coords)
 
