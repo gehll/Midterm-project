@@ -2,11 +2,12 @@ import streamlit as st
 from data_st import get_data
 from folium import Map, Marker, Icon
 from streamlit_folium import st_folium
-from transports import transports
+from transports import transports, get_transport
 import pandas as pd
 from clean_raw import clean_raw
 from useful.get_lines import get_lines
 from geopy.geocoders import Nominatim
+from utils import doc_to_latlng
 
 
 # ADD title and welcome message
@@ -167,10 +168,9 @@ if select_type and transport_types and selected_lines:
 
     for idx, type in enumerate(geo_data):
         for doc in type:
-            Marker([doc['Location']['coordinates'][1], doc['Location']['coordinates'][0]],
+            transport_data = get_transport(transport_types[idx])
+            Marker(doc_to_latlng(doc),
                    popup=f"<i>{doc['Station']}</i>",
-                   tooltip=transports[transport_types[idx]]['tooltip'],
-                   icon=Icon(icon=transports[transport_types[idx]]['icon'],
-                             color=transports[transport_types[idx]]['color'], prefix='fa')).add_to(mapa_coords)
+                   **transport_data, prefix='fa').add_to(mapa_coords)
 
     st_mapa_coords_completo = st_folium(mapa_coords)

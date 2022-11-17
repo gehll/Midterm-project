@@ -15,3 +15,12 @@ transports = {'Bus': {'Code': ['K014', 'K015'], 'icon': 'bus', 'tooltip': 'Bus',
               'Cableway': {'Code': ['K010'], 'icon': 'square-o', 'tooltip': 'Cableway', 'color': 'purple'},
               'Tramvia': {'Code': ['K011'], 'icon': 'minus', 'tooltip': 'Tramvia', 'color': 'green'}
               }
+
+
+def get_transport(t_type):
+    """
+    Get transport object without "Code" key
+    """
+    if not t_type in transports:
+        raise ValueError("Invalid code")
+    return {k: v for k, v in transports[t_type].items() if k != "Code"}
