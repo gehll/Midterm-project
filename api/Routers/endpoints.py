@@ -69,29 +69,40 @@ def get_transport_type_sample(type, limit: int = 0, rawData: int = 1):
 
 
 @router.get("/geoquery")
-def make_geoquery(location: list[str] = Query(default=['C. de Lope de Vega, 282, 08018 Barcelona'])):
+def make_geoquery(type: str = 'Metro',
+                  location: list[str] = Query(
+                      default=['C/ de Mallorca, 401, 08013 Barcelona']),
+                  lines: list[str] = Query(default=['L1', 'L9', 'L7', 'L10', 'BLAU'])):
 
+    # Check if location is an address or coords
+    # If is an address, convert into coords
     if len(location) == 1:
         geolocator = Nominatim(user_agent="BCN")
         locator = geolocator.geocode(location[0])
         lat = locator.latitude
         long = locator.longitude
-    else:
+    else:  # If coords, get the coords
         lat = float(location[0])
         long = float(location[1])
 
     # The reference point will be the passed coordinates
     reference = {
         "type": "Point",
+        # Geoqueries are made in the format long, lat
         "coordinates": [long, lat]
     }
 
-    q = {"Location": {
-        "$near": {
-            "$geometry": reference,
-            "$maxDistance": 5000
+    # Now the filter to get closests stations by type and desired lines
+
+    filt = {
+        "Code": {"$in": transports[type]},
+        "Lines": {"$in": lines},
+        "Location": {
+            "$near": {
+                "$geometry": reference,
+                "$maxDistance": 5000
+            }
         }
     }
-    }
 
-    return loads(json_util.dumps(BCN['geo_transports'].find(q)))
+    return loads(json_util.dumps(BCN['geo_transports'].find(filt).limit(5)))

@@ -6,6 +6,7 @@ from transports import transports
 import pandas as pd
 from clean_raw import clean_raw
 from useful.get_lines import get_lines
+from geopy.geocoders import Nominatim
 
 
 # ADD title and welcome message
@@ -133,13 +134,42 @@ selected_lines = st.multiselect('Choose the lines that you want to look for',
 
 # TODO Make geoquery
 
-geo_params = {
-    "location": location
-}
+geo_data = []
+for tipo in transport_types:
 
-############ FILTRAR DATOS GEOQUERY POR AQUELLOS QUE SEA DE LAS LINEAS Y TIPO ESPECIFICADO ###############################
+    geo_params = {
+        "location": location,
+        "type": tipo,
+        "lines": selected_lines
+    }
+    geo_type = get_data.make_geoquery(geo_params)
+    geo_data.append(geo_type)
+
 
 # TODO plot map, centered at the location given with a marker of a person. put VIEW in 13-14
 
+if select_type == 'address':
+    geolocator = Nominatim(user_agent="location")
+    locator = geolocator.geocode(select_type)
+    location = [locator.latitude, locator.longitude]
+
+coords = location  # Latitude, Longitude
+coords_tooltip = "Me!"
+coords_marker = Marker(coords,
+                       popup=f"<i>{location}</i>",
+                       tooltip=coords_tooltip,
+                       icon=Icon(icon="user", color='black', prefix='fa'))
+mapa_coords = Map(location=coords, zoom_start=12, control_scale=True)
+mapa_coords.add_child(coords_marker)
 
 # For each of the points from the geoquery, add each one of them as markers with icons and all info as in welcome map.
+
+for idx, type in enumerate(geo_data):
+    for doc in type:
+        Marker([doc['Location']['coordinates'][1], doc['Location']['coordinates'][0]],
+               popup=f"<i>{doc['Station']}</i>",
+               tooltip=transports[doc['Code']]['tooltip'],
+               icon=Icon(icon=transports[transport_types[idx]]['icon'],
+                         color=transports[transport_types[idx]]['color'], prefix='fa')).add_to(mapa_coords)
+
+st_mapa_coords_completo = st_folium(mapa_coords)
