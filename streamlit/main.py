@@ -96,13 +96,14 @@ select_type = st.multiselect('Choose how to provide the location',
                              ['coordinates', 'address'],
                              max_selections=1)
 if select_type:
-    if select_type == 'address':
-        location = [st.text_input('Insert the address', None)]
+    if select_type[0] == 'address':
+        location = st.text_input('Insert the address', None)
+        location = [location]
     else:
         latitude = st.number_input(
-            'Latitude', min_value=-90.0, max_value=90.0, value=37.067, help='Latitude is measured in degrees from the ecuator to the N or S')
+            'Latitude', min_value=-90.0, max_value=90.0, value=41.2413, help='Latitude is measured in degrees from the ecuator to the N or S')
         longitude = st.number_input(
-            'Longitude', min_value=-180.0, max_value=180.0, value=-2.529, help='Longitude is measured in degrees from the prime meridian to the E or W')
+            'Longitude', min_value=-180.0, max_value=180.0, value=2.1028, help='Longitude is measured in degrees from the prime meridian to the E or W')
         location = [str(latitude), str(longitude)]
 
 
@@ -147,29 +148,29 @@ for tipo in transport_types:
 
 
 # TODO plot map, centered at the location given with a marker of a person. put VIEW in 13-14
+if len(select_type) > 0 and len(transport_types) > 0 and len(selected_lines) > 0:
+    if select_type[0] == 'address':
+        geolocator = Nominatim(user_agent="location")
+        locator = geolocator.geocode(select_type[0])
+        location = [locator.latitude, locator.longitude]
 
-if select_type == 'address':
-    geolocator = Nominatim(user_agent="location")
-    locator = geolocator.geocode(select_type)
-    location = [locator.latitude, locator.longitude]
+    coords = location  # Latitude, Longitude
+    coords_tooltip = "Me!"
+    coords_marker = Marker(coords,
+                           popup=f"<i>{location}</i>",
+                           tooltip=coords_tooltip,
+                           icon=Icon(icon="user", color='black', prefix='fa'))
+    mapa_coords = Map(location=coords, zoom_start=12, control_scale=True)
+    mapa_coords.add_child(coords_marker)
 
-coords = location  # Latitude, Longitude
-coords_tooltip = "Me!"
-coords_marker = Marker(coords,
-                       popup=f"<i>{location}</i>",
-                       tooltip=coords_tooltip,
-                       icon=Icon(icon="user", color='black', prefix='fa'))
-mapa_coords = Map(location=coords, zoom_start=12, control_scale=True)
-mapa_coords.add_child(coords_marker)
+    # For each of the points from the geoquery, add each one of them as markers with icons and all info as in welcome map.
 
-# For each of the points from the geoquery, add each one of them as markers with icons and all info as in welcome map.
+    for idx, type in enumerate(geo_data):
+        for doc in type:
+            Marker([doc['Location']['coordinates'][1], doc['Location']['coordinates'][0]],
+                   popup=f"<i>{doc['Station']}</i>",
+                   tooltip=transports[doc['Code']]['tooltip'],
+                   icon=Icon(icon=transports[transport_types[idx]]['icon'],
+                             color=transports[transport_types[idx]]['color'], prefix='fa')).add_to(mapa_coords)
 
-for idx, type in enumerate(geo_data):
-    for doc in type:
-        Marker([doc['Location']['coordinates'][1], doc['Location']['coordinates'][0]],
-               popup=f"<i>{doc['Station']}</i>",
-               tooltip=transports[doc['Code']]['tooltip'],
-               icon=Icon(icon=transports[transport_types[idx]]['icon'],
-                         color=transports[transport_types[idx]]['color'], prefix='fa')).add_to(mapa_coords)
-
-st_mapa_coords_completo = st_folium(mapa_coords)
+    st_mapa_coords_completo = st_folium(mapa_coords)
