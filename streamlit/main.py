@@ -2,12 +2,11 @@ import streamlit as st
 from data_st import get_data
 from folium import Map, Marker, Icon
 from streamlit_folium import st_folium
-from transports import transports, get_transport
+from transports import transports, get_colorIcon, get_tooltip
 import pandas as pd
 from clean_raw import clean_raw
 from useful.get_lines import get_lines
-from geopy.geocoders import Nominatim
-from utils import doc_to_latlng
+from utils import doc_to_latlng, create_marker
 
 
 # ADD title and welcome message
@@ -92,20 +91,12 @@ st_mapa_barna_completo = st_folium(mapa_barna)
 
 st.subheader('Next, introduce a location to get the closests stations')
 
-# TODO GET LOCATION (In coords and also a street and number)
-select_type = st.multiselect('Choose how to provide the location',
-                             ['coordinates', 'address'],
-                             max_selections=1)
-if select_type:
-    if select_type[0] == 'address':
-        location = st.text_input('Insert the address', None)
-        location = [location]
-    else:
-        latitude = st.number_input(
-            'Latitude', min_value=-90.0, max_value=90.0, help='Latitude is measured in degrees from the ecuator to the N or S')
-        longitude = st.number_input(
-            'Longitude', min_value=-180.0, max_value=180.0, help='Longitude is measured in degrees from the prime meridian to the E or W')
-        location = [str(latitude), str(longitude)]
+
+latitude = st.number_input(
+    'Latitude', min_value=-90.0, max_value=90.0, help='Latitude is measured in degrees from the ecuator to the N or S')
+longitude = st.number_input(
+    'Longitude', min_value=-180.0, max_value=180.0, help='Longitude is measured in degrees from the prime meridian to the E or W')
+location = [str(latitude), str(longitude)]
 
 
 st.subheader('What types of transport are you looking for?')
@@ -149,11 +140,7 @@ for tipo in transport_types:
 
 
 # TODO plot map, centered at the location given with a marker of a person. put VIEW in 13-14
-if select_type and transport_types and selected_lines:
-    if select_type[0] == 'address':
-        geolocator = Nominatim(user_agent="location")
-        locator = geolocator.geocode(select_type[0])
-        location = [locator.latitude, locator.longitude]
+if transport_types and selected_lines:
 
     coords = location  # Latitude, Longitude
     coords_tooltip = "Me!"
@@ -168,9 +155,7 @@ if select_type and transport_types and selected_lines:
 
     for idx, type in enumerate(geo_data):
         for doc in type:
-            transport_data = get_transport(transport_types[idx])
-            Marker(doc_to_latlng(doc),
-                   popup=f"<i>{doc['Station']}</i>",
-                   **transport_data, prefix='fa').add_to(mapa_coords)
+            marker = create_marker(doc, transport_types[idx])
+            mapa_coords.add_child(marker)
 
     st_mapa_coords_completo = st_folium(mapa_coords)

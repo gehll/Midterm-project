@@ -17,10 +17,19 @@ transports = {'Bus': {'Code': ['K014', 'K015'], 'icon': 'bus', 'tooltip': 'Bus',
               }
 
 
-def get_transport(t_type):
+def get_colorIcon(t_type):
     """
     Get transport object without "Code" key
     """
     if not t_type in transports:
         raise ValueError("Invalid code")
-    return {k: v for k, v in transports[t_type].items() if k != "Code"}
+    return {k: v for k, v in transports[t_type].items() if k not in ["Code", "tooltip"]}
+
+
+def get_tooltip(t_type):
+    """
+    Get tooltip for document
+    """
+    if not t_type in transports:
+        raise ValueError("Invalid code")
+    return transports[t_type]['tooltip']

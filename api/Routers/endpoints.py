@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException, Query
 from database.mongodb import BCN
 from bson import json_util
 from json import loads
-from geopy.geocoders import Nominatim
 
 # Init router
 router = APIRouter()
@@ -71,19 +70,14 @@ def get_transport_type_sample(type, limit: int = 0, rawData: int = 1):
 @router.get("/geoquery")
 def make_geoquery(type: str = 'Metro',
                   location: list[str] = Query(
-                      default=['C/ de Mallorca, 401, 08013 Barcelona']),
+                      default=['41.40', '2.17']),
                   lines: list[str] = Query(default=['L1', 'L9', 'L7', 'L10', 'BLAU'])):
 
     # Check if location is an address or coords
     # If is an address, convert into coords
-    if len(location) == 1:
-        geolocator = Nominatim(user_agent="BCN")
-        locator = geolocator.geocode(location[0])
-        lat = locator.latitude
-        long = locator.longitude
-    else:  # If coords, get the coords
-        lat = float(location[0])
-        long = float(location[1])
+    # If coords, get the coords
+    lat = float(location[0])
+    long = float(location[1])
 
     # The reference point will be the passed coordinates
     reference = {
