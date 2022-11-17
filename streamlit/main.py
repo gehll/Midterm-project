@@ -94,18 +94,18 @@ st.subheader('Next, introduce a location to get the closests stations')
 select_type = st.multiselect('Choose how to provide the location',
                              ['coordinates', 'address'],
                              max_selections=1)
+if select_type:
+    if select_type == 'address':
+        location = [st.text_input('Insert the address', None)]
+    else:
+        latitude = st.number_input(
+            'Latitude', min_value=-90.0, max_value=90.0, value=37.067, help='Latitude is measured in degrees from the ecuator to the N or S')
+        longitude = st.number_input(
+            'Longitude', min_value=-180.0, max_value=180.0, value=-2.529, help='Longitude is measured in degrees from the prime meridian to the E or W')
+        location = [str(latitude), str(longitude)]
 
-if select_type == 'address':
-    location = [st.text_input('Insert the address', None)]
-else:
-    latitude = st.number_input(
-        'Latitude', min_value=-90.0, max_value=90.0, value=37.067, help='Latitude is measured in degrees from the ecuator to the N or S')
-    longitude = st.number_input(
-        'Longitude', min_value=-180.0, max_value=180.0, value=-2.529, help='Longitude is measured in degrees from the prime meridian to the E or W')
-    location = [str(latitude), str(longitude)]
 
-
-st.subheader('Which types of transport are you looking for?')
+st.subheader('What types of transport are you looking for?')
 
 # TODO GET TYPE OF TRANSPORT
 
@@ -120,7 +120,7 @@ st.text('Which lines are you interested in?')
 # Get data filtered by type of transport
 
 transport_data = [get_data.get_transport_type(
-    type) for type in transport_types]  # Lis of lists with JSON documents
+    type) for type in transport_types]  # List of lists with JSON documents
 
 # Get all lines that those types of transport have
 
@@ -134,11 +134,10 @@ selected_lines = st.multiselect('Choose the lines that you want to look for',
 # TODO Make geoquery
 
 geo_params = {
-    "types": transport_types,
-    "lines": selected_lines,
     "location": location
 }
 
+############ FILTRAR DATOS GEOQUERY POR AQUELLOS QUE SEA DE LAS LINEAS Y TIPO ESPECIFICADO ###############################
 
 # TODO plot map, centered at the location given with a marker of a person. put VIEW in 13-14
 

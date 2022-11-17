@@ -69,11 +69,7 @@ def get_transport_type_sample(type, limit: int = 0, rawData: int = 1):
 
 
 @router.get("/geoquery")
-# Get types of trasport and lines as lists
-def make_geoquery(types: list[str] = Query(default=["Metro", "Tramvia"]),
-                  lines: list[str] = Query(
-                      default=['L6', 'L11', 'L1', 'L5', 'L3', 'L2', 'L4', 'BLAU']),
-                  location: list[str] = Query(default=['37.067', '-2.529'])):
+def make_geoquery(location: list[str] = Query(default=['C. de Lope de Vega, 282, 08018 Barcelona'])):
 
     if len(location) == 1:
         geolocator = Nominatim(user_agent="BCN")
@@ -84,26 +80,18 @@ def make_geoquery(types: list[str] = Query(default=["Metro", "Tramvia"]),
         lat = float(location[0])
         long = float(location[1])
 
+    # The reference point will be the passed coordinates
     reference = {
         "type": "Point",
         "coordinates": [long, lat]
     }
 
-    # Pipeline to unwind Lines because in some cases is an array, so we wan to filter by all type of transports disered but also it has to be one of the lines desired.
-    pipeline = [
-        {"$unwind": "$Lines"},
-        {"$match": {"Code": {"$in": [
-            code for type in types for code in transports[type]]},
-            "Lines": {"$in": lines},
-         "Location": {
-            "$near": {
-                "$geometry": reference,
-                "$maxDistance": 500
-            }
+    q = {"Location": {
+        "$near": {
+            "$geometry": reference,
+            "$maxDistance": 5000
         }
-        }
-        },
-        {"$project": {"_id": 0}}
-    ]
+    }
+    }
 
-    return list(BCN['geo_transports'].aggregate(pipeline))
+    return loads(json_util.dumps(BCN['geo_transports'].find(q)))
