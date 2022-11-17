@@ -44,9 +44,10 @@ def get_transport_type(type):
 
 # Get specific type of transport but limiting to 100 documents if it is "Bus" key
 
+# limit = 0 is equal to setting no limit. rawData = 1 so that default endpoint if to plot map in streamlit
+
 
 @router.get('/sample/{type}')
-# limit = 0 is equal to setting no limit. rawData = 1 so that default endpoint if to plot map in streamlit
 def get_transport_type_sample(type, limit: int = 0, rawData: int = 1):
     data = BCN['geo_transports']
 

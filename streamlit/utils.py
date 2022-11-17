@@ -1,4 +1,4 @@
-from folium import Map, Marker, Icon
+from folium import Marker, Icon
 from transports import get_colorIcon, get_tooltip
 
 
