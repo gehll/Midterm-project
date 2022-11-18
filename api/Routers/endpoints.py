@@ -41,7 +41,7 @@ Limit = 0 is equal to setting no limit. rawData = 1 so that default endpoint if 
 def get_transport_type_sample(type, limit: int = 0, rawData: int = 1):
     data = BCN['geo_transports']
 
-    if type == 'Bus' and rawData:
+    if (type == 'Bus' or type == 'Metro') and rawData:
         type_json = transform(
             data.find({'Code': {"$in": transports[type]}}).limit(50))
 

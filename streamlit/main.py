@@ -7,6 +7,7 @@ import pandas as pd
 from clean_raw import clean_raw
 from useful.get_lines import get_lines
 from utils import create_marker
+from create_pdf import PDF
 
 
 # ADD title and welcome message
@@ -175,3 +176,35 @@ if st.checkbox('Check the box if you want to seach for the nearest stations',
                 mapa_coords.add_child(marker)
 
         st_mapa_coords_completo = st_folium(mapa_coords)
+
+
+########################################################################################
+########################################################################################
+###
+# The last thing we are going to incorporate to the streamlit app is a button to  give
+# the option to download the map as a PDF and/or send it via e-amail
+########################################################################################
+########################################################################################
+
+st.subheader('Downdload the results as PDF')
+
+# --- Checkout to download PDF
+
+download = st.checkbox('Download as PDF')
+
+if download:
+
+    # Instantiation of inherited class
+    pdf = PDF()
+    pdf.alias_nb_pages()
+    pdf.add_page()
+    pdf.set_font('Times', '', 12)
+    for i in range(1, 41):
+        pdf.cell(0, 10, 'Printing line number ' + str(i), 0, 1)
+    pdf.output('tuto2.pdf', 'F')
+
+    # Checkbox to give the option to send a copy via email as well
+
+    # If yes, text input for the email (PUT STRIP)
+    # Another text input to double-check email
+    # Check if email is correct and SEND
