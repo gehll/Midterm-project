@@ -10,7 +10,7 @@ class PDF(FPDF):
         # Move to the right
         self.cell(80)
         # Title
-        self.cell(30, 10, 'Barcelon public transport', 1, 0, 'C')
+        self.cell(30, 10, 'Barcelona public transport', 1, 0, 'C')
         # Line break
         self.ln(20)
 

@@ -8,6 +8,8 @@ from clean_raw import clean_raw
 from useful.get_lines import get_lines
 from utils import create_marker
 from create_pdf import PDF
+import io
+from PIL import Image
 
 
 # ADD title and welcome message
@@ -199,9 +201,14 @@ if download:
     pdf.alias_nb_pages()
     pdf.add_page()
     pdf.set_font('Times', '', 12)
-    for i in range(1, 41):
-        pdf.cell(0, 10, 'Printing line number ' + str(i), 0, 1)
-    pdf.output('tuto2.pdf', 'F')
+
+    img_data = mapa_coords._to_png(5)
+    img = Image.open(io.BytesIO(img_data))
+    img.save('coords.png')
+
+    pdf.output('CORE.pdf', 'F')
+
+    # Button to download pdf
 
     # Checkbox to give the option to send a copy via email as well
 
