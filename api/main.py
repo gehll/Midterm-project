@@ -1,16 +1,17 @@
 from fastapi import FastAPI
 from Routers import endpoints
 
-#Iniciamos la API
+# Init the API
 bane = FastAPI()
 
-#Incluimos los routers del archivo endpoints
+# Include routers
 bane.include_router(endpoints.router)
 
-# Creamos el endpoint raiz
+
+# Create root endpoint
+
 @bane.get("/")
 def raiz():
     return {
         "message": "Bienvenido al manantial de Fatboy98!"
     }
-

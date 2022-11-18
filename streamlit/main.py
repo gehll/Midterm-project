@@ -21,25 +21,26 @@ st.text('This page shows a variety of public transports stations in Barcelona th
 #########################################################
 
 
-# Parameters of get_type_sample(). "limit"=1 gets only 1 observation of each transport type
-# "rawData=0" means that we get 1 observation also for "Bus" type. "rawData=1" is to sample 50
-# observations of the type "Bus"
-
-rawData_params = {
-    "limit": 1,
-    "rawData": 0
-}
-
-rawData = []  # List that will contain the sample data that will be displayed as a dataframe
-for key in transports.keys():
-    rawData.append(get_data.get_type_sample(key, rawData_params)[0])
-
-raw_df = pd.DataFrame(rawData)
-raw_df = clean_raw(raw_df)
-
 st.subheader('Overview')
 
 if st.checkbox('Click to see raw data'):
+
+    # Parameters of get_type_sample(). "limit"=1 gets only 1 observation of each transport type
+    # "rawData=0" means that we get 1 observation also for "Bus" type. "rawData=1" is to sample 50
+    # observations of the type "Bus"
+
+    rawData_params = {
+        "limit": 1,
+        "rawData": 0
+    }
+
+    rawData = []  # List that will contain the sample data that will be displayed as a dataframe
+    for key in transports.keys():
+        rawData.append(get_data.get_type_sample(key, rawData_params)[0])
+
+    raw_df = pd.DataFrame(rawData)
+    raw_df = clean_raw(raw_df)
+
     st.text('Below, the data has been converted from JSON format to a dataframe \nso that each column corresponds to each field of the database.\nA filter has been performed so that there is one observation of each type of transport.')
     st.write(raw_df.sort_values(by=['Code']))
 
@@ -100,7 +101,7 @@ st_mapa_barna_completo = st_folium(mapa_barna)
 ###################################################################################################################################
 
 
-st.subheader('Next, introduce a location to get the closests stations')
+st.subheader('Next, introduce a location to get the closest stations')
 
 location = []
 if st.checkbox('Check the box if you want to seach for the nearest stations',
