@@ -1,50 +1,40 @@
 from fastapi import APIRouter, HTTPException, Query
 from database.mongodb import BCN
-from bson import json_util
-from json import loads
+from Routers.extras import transports, transform
+
 
 # Init router
 router = APIRouter()
 
-# Router to get all the desired collection from the database
+
+'''
+Router to get desired collectiong from mongodb. Currently working with: geo_transports and transports_unwind
+'''
 
 
 @router.get("/collection/{name}")
 def get_data(name):
     data = BCN[name]
-    return loads(json_util.dumps(data.find({})))
+    return transform(data.find({}))
 
 
-# Dictionary to filter type of transport by "Code" field
-# Bus has two codes because it includes day-bus and night-bus. These
-# are considered the "regular" buses
-transports = {'Bus': ['K014', 'K015'],
-              'Bus_airport': ['K016'],
-              'Bus_station': ['K017'],
-              'Metro': ['K001'],
-              'Railway': ['K002'],
-              'Renfe': ['K003'],
-              'Airport_train': ['K004'],
-              'Maritime_station': ['K008'],
-              'Funicular': ['K009'],
-              'Cableway': ['K010'],
-              'Tramvia': ['K011']
-              }
-
-# Get specific type of transport
+'''
+Roiter to get a specific type of transport from geo_transports
+'''
 
 
 @router.get('/transport_type/{type}')
 def get_transport_type(type):
     data = BCN['geo_transports']
-    type_json = loads(json_util.dumps(
-        data.find({'Code': {"$in": transports[type]}})))
+    type_json = transform(data.find({'Code': {"$in": transports[type]}}))
 
     return type_json
 
-# Get specific type of transport but limiting to 100 documents if it is "Bus" key
 
-# limit = 0 is equal to setting no limit. rawData = 1 so that default endpoint if to plot map in streamlit
+'''
+This routers does the same as the previous but gets only a sample from all documents.
+Limit = 0 is equal to setting no limit. rawData = 1 so that default endpoint if to plot map in streamlit
+'''
 
 
 @router.get('/sample/{type}')
@@ -52,8 +42,8 @@ def get_transport_type_sample(type, limit: int = 0, rawData: int = 1):
     data = BCN['geo_transports']
 
     if type == 'Bus' and rawData:
-        type_json = loads(json_util.dumps(
-            data.find({'Code': {"$in": transports[type]}}).limit(50)))
+        type_json = transform(
+            data.find({'Code': {"$in": transports[type]}}).limit(50))
 
     else:
 
@@ -62,10 +52,15 @@ def get_transport_type_sample(type, limit: int = 0, rawData: int = 1):
             raise HTTPException(
                 status_code=400, detail='Limit must be positive and rawData between 0, 1')
 
-        type_json = loads(json_util.dumps(
-            data.find({'Code': {"$in": transports[type]}}).limit(limit)))
+        type_json = transform(
+            data.find({'Code': {"$in": transports[type]}}).limit(limit))
 
     return type_json
+
+
+'''
+Router to make geoquery given a location, type of transport and desired lines from that type of transport
+'''
 
 
 @router.get("/geoquery")
@@ -74,16 +69,14 @@ def make_geoquery(type: str = 'Metro',
                       default=['41.40', '2.17']),
                   lines: list[str] = Query(default=['L1', 'L9', 'L7', 'L10', 'BLAU'])):
 
-    # Check if location is an address or coords
-    # If is an address, convert into coords
-    # If coords, get the coords
+    # Get the coords
     lat = float(location[0])
     long = float(location[1])
 
-    # The reference point will be the passed coordinates
+    # The coords will be used as the reference point to make geoqueries and center the output map
     reference = {
         "type": "Point",
-        # Geoqueries are made in the format long, lat
+        # Geoqueries are made in long, lat format
         "coordinates": [long, lat]
     }
 
@@ -100,4 +93,5 @@ def make_geoquery(type: str = 'Metro',
         }
     }
 
-    return loads(json_util.dumps(BCN['geo_transports'].find(filt).limit(5)))
+    # Get the 5 closest ones
+    return transform(BCN['geo_transports'].find(filt).limit(5))
