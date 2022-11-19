@@ -7,4 +7,4 @@ ADD ./ ./
 RUN pip install -r requirements.txt
 
 # 
-CMD ["./run_docker-api.sh"]
+CMD ["./run_api-develop.sh"]
