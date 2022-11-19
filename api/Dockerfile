@@ -4,7 +4,7 @@ FROM python:3.9.13
 ADD ./ ./
 
 # Install uvicorn when building the image so that we can run the API
-RUN pip install uvicorn
+RUN pip install -r requirements.txt
 
 # 
 CMD ["./run_docker-api.sh"]
