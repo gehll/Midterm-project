@@ -4,7 +4,9 @@
 
 Author: Gonzalo España-Heredia Llanza
 
-<p align="left"> <img src="https://www.corecode.school/branding/logo_app.png" width="50" height="50" /> </p> This repo contains all code needed to replicate my personal mid-term project from the CORECODE school Big Data & ML bootcamp. Link to the bootcamp [here](https://www.corecode.school/bootcamp/bdml).
+<p align="left"> <img src="https://www.corecode.school/branding/logo_app.png" width="50" height="50" /> </p> This repo contains all code needed to replicate my personal mid-term project from the CORECODE school Big Data & ML bootcamp. Link to the bootcamp
+
+[here](https://www.corecode.school/bootcamp/bdml).
 
 The repo has 3 main parts:
 - [Data cleaning](https://github.com/gehll/Midterm-project/tree/main/clean_data)
