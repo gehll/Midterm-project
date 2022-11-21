@@ -7,9 +7,9 @@ Author: Gonzalo España-Heredia Llanza
 <p align="left"> <img src="https://www.corecode.school/branding/logo_app.png" width="50" height="50" /> </p> This repo contains all code needed to replicate my personal mid-term project of the Big Data & ML bootcamp.
 
 The repo has 3 main parts:
-- Data cleaning
-- API
-- Streamlit app
+- [Data cleaning](https://github.com/gehll/Midterm-project/tree/main/clean_data)
+- [API](https://github.com/gehll/Midterm-project/tree/main/api)
+- [Streamlit app](https://github.com/gehll/Midterm-project/tree/main/streamlit)
 
 ## Launch the project locally
 
