@@ -1,10 +1,8 @@
-FROM python:3.9.13
-
-# Copy files inside Docker images
-ADD ./ ./
-
-# Install all required packages
+FROM python:3.9
+EXPOSE 8501
+WORKDIR /project
+COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
-
-# 
-CMD ["./run_streamlit-prod.sh"]
+COPY . .
+ENV PORT=8501
+CMD streamlit run  --server.enableXsrfProtection false --server.enableCORS false --server.port ${PORT}  main.py
