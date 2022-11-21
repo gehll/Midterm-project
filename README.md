@@ -15,7 +15,7 @@ The repo has 3 main parts:
 
 **Important aspects**
 
-If you go to `streamlit/data_st/get_data.py` you will find the functions that are used to call the API and get the data for the streamlit app. If you look closely, all function have as URL the URL of the Heroku app created for the API. Leave this is you are going to connect to the API on the cloud, but if you want to launch the project to make changes to the API you must change the URL to your <localhost>:<desired_host>
+If you go to `streamlit/data_st/get_data.py` you will find the functions that are used to call the API and get the data for the streamlit app. If you look closely, all functions have as URL the URL of the Heroku app created for the API. Leave this if you are going to connect to the API on the cloud, but if you want to launch the project locally and make changes, you must change the URL to your <localhost>:<desired_host>
 
 To launch the project locally, from the cli in the path of the repository:
 
@@ -33,17 +33,16 @@ cd streamlit
 ./run_streamlit-develop.sh
 ```
 
-#### Important aspects
-
-If you go to `streamlit/data_st/get_data.py` you will find the functions that are used to call the API and get the data for the streamlit app. If you look closely, all function have as URL the URL of the Heroku app created for the API. Leave this is you are going to connect to the API on the cloud, but if you want to launch the project to make changes to the API you must change the URL to your <localhost>:<desired_host>
-
+ 
 ## Data cleaning
 
-The data used comes from [kaggle](https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets) from a dataset with data about the city of Barcelona. For this project only two data files are needed: transports.csv and bus_stops.csv.
+The data used can be found in [kaggle](https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets) on a dataset with data about the city of Barcelona. For this project only two files are needed: transports.csv and bus_stops.csv.
 
 **transports.csv** contains data about different types of public transports (subway, railway, cableway, tramvia, etc) and **bus_stops.csv** contains data about the different types of bus stations (day bus, night bus, airport bus, bus stations). 
 
-During the cleaning, the goal was to concatenate both datasets so it was necessary to rename columns, have a consistent format across both datasets, clean data and create new columns. To access the data through the API, the data was stored in Mongodb Atlas, mainly because the goal was to make geoqueries later on the streamlit and, thus it is better to work with mongo than with a relational database. After the data was cleaned, a blank collection was filled with the clean data, this collection is called **geo_transports**.
+During the cleaning, the goal was to concatenate both datasets so it was necessary to rename columns, have a consistent format across both datasets, clean data, create new columns and transform the columns with the coordinates to one single column with *Point* format and 2D-index for spatial queries. To access the data through the API, the data was stored in Mongodb Atlas, mainly because the goal was to make geoqueries later on the streamlit. Thus it is better to work with mongo than with a relational database. After the data was cleaned, a blank collection was filled with the clean data, this collection is called **geo_transports**.
+  
+ Inside the `data`folder you can find 3 `.csv` files. Two are the ones we mentioned, the other one is the resulting dataset from cleaning and concatenating the data. This dataset is later used to fill the blank collection *geo_transports* and work with data in geoJSON format. You can find all the cleaning process [here](https://github.com/gehll/Midterm-project/blob/main/clean_data/clean.ipynb).
 
 ## API
 
@@ -52,7 +51,7 @@ The API is used as the connection between Mongodb Atlas and the streamlit app. T
 
 #### API Reference
 
-##### Get all items
+##### Get all items from a collection
 
 ```http
   GET /url/collection/{name}
