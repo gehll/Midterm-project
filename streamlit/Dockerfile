@@ -1,4 +1,4 @@
-FROM python:3.9.13
+FROM python:3.9-slim
 
 # Copy files inside Docker image
 ADD ./ ./
