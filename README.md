@@ -11,7 +11,7 @@ The repo has 3 main parts:
 - API
 - Streamlit app
 
-## Launch the project
+## Launch the project locally
 
 To launch the project locally, from the cli in the path of the repository:
 
