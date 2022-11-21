@@ -41,6 +41,55 @@ During the cleaning, the goal was to concatenate both datasets so it was necessa
 
 The API is used as the connection between Mongodb Atlas and the streamlit app. There are several endpoints to access the data in the collection (geo_transports). All the endpoints can be found at `api/routers/endpoints.py` [here](https://github.com/gehll/Midterm-project/blob/BACKUP/api/Routers/endpoints.py).
 
+
+#### API Reference
+
+##### Get all items
+
+```http
+  GET /url/collection/{name}
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `name` | `string` | **Required**.|
+
+##### Get a specific transport type
+
+```http
+  GET /url/transport_type/{type}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `type`      | `string` | **Required**. |
+
+##### Get a sample from a specific transport type
+
+```http
+  GET /url/sample/{type}/?{limit}&{rawData}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `sample`      | `string` | **Required**. |
+| `limit`      | `int` | **Optional**. Default=0. Takes all values |
+| `rawData`      | `int` | **Optional**. Default=1. Whether to sample for *Bus* or not |
+
+
+##### Make geoquery
+
+```http
+  GET /url/geoquery/?{type}&{location}&{lines}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `type`      | `string` | **Required**. The type of transport|
+| `location`      | `list` | **Required**. Location in coordinates|
+| `lines`      | `list` | **Required**. The desired lines|
+
+
 ## Streamlit
 
 The streamlit app consists of two main parts:
@@ -57,6 +106,9 @@ The next and last part is a map that shows the closests transport stations based
 
 After introducing the query parameters, a geoquery is made to display a map with the closest stations where your desired lines pass through. You will get the 5 closest stationf for each type of transports that you select.
 
+#### Important aspects
+
+If you go to `streamlit/data_st/get_data.py` you will find the functions that are used to call the API and get the data for the streamlit app. If you look closely, all function have as URL the URL of the Heroku app created for the API. Leave this is you are going to connect to the API on the cloud, but if you want to launch the project to make changes to the API you must change the URL to your <localhost>:<desired_host>
 
 ## API and Streamlit app in Heroku
 
@@ -64,3 +116,47 @@ If you look inside `api` and `streamlit` folders, you will see that there is a `
 
 - To access the API on the cloud: [https://core-midterm.herokuapp.com/](https://core-midterm.herokuapp.com/)
 - To access the streamlit app on the cloud: [https://core-midterm-streamlit.herokuapp.com/](https://core-midterm-streamlit.herokuapp.com/)
+
+
+### Deployment
+
+To deploy this project first you need to deploy the API so that the streamlit can feed from it.
+
+You must:
+- Have Docker downloaded 
+- Have the Heroku cli 
+- In your Heroku account, create a new app. This will be the app to place to deploy the image.
+
+**Build** the image:
+
+```bash
+cd api
+docker build -t api .
+```
+
+After building the image, deploy it on Heroku:
+
+```bash
+./deploy.sh
+```
+
+Go to your Heroku app. The deployment should be successful and you should be able to launch the app.
+
+Once we have the API on the cloud, it is time to deploy the streamlit app. The process is pretty much the same.
+
+Go back to the root of the repo
+
+```bash
+cd streamlit
+docker build -t st .
+```
+
+After building the image, deploy it on Heroku:
+
+```bash
+./deploy.sh
+```
+
+**It is important that you change the URL to on the functions that will feed the streamlit app with data.**
+**To run the project locally, just put you localhost and desired port on the URL. To connect with the API on the cloud, you must put the URL to the Heroku app you just created.**
+
