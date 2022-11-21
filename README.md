@@ -29,6 +29,10 @@ cd streamlit
 ./run_streamlit-develop.sh
 ```
 
+#### Important aspects
+
+If you go to `streamlit/data_st/get_data.py` you will find the functions that are used to call the API and get the data for the streamlit app. If you look closely, all function have as URL the URL of the Heroku app created for the API. Leave this is you are going to connect to the API on the cloud, but if you want to launch the project to make changes to the API you must change the URL to your <localhost>:<desired_host>
+
 ## Data cleaning
 
 The data used comes from [kaggle](https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets) from a dataset with data about the city of Barcelona. For this project only two data files are needed: transports.csv and bus_stops.csv.
@@ -106,9 +110,6 @@ The next and last part is a map that shows the closests transport stations based
 
 After introducing the query parameters, a geoquery is made to display a map with the closest stations where your desired lines pass through. You will get the 5 closest stationf for each type of transports that you select.
 
-#### Important aspects
-
-If you go to `streamlit/data_st/get_data.py` you will find the functions that are used to call the API and get the data for the streamlit app. If you look closely, all function have as URL the URL of the Heroku app created for the API. Leave this is you are going to connect to the API on the cloud, but if you want to launch the project to make changes to the API you must change the URL to your <localhost>:<desired_host>
 
 ## API and Streamlit app in Heroku
 
