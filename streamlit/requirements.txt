@@ -1,0 +1,6 @@
+pymongo==4.3.2
+python-dotenv==0.21.0
+pandas==1.4.4
+folium==0.13.0
+streamlit==1.14.1
+streamlit-folium==0.7.0

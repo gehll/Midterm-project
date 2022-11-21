@@ -5,14 +5,14 @@ def get_collection(collection):
     '''
     Calls the API to request a specific collection from mongodb database
     '''
-    return requests.get(f"http://127.0.0.1:8000/collection/{collection}").json()
+    return requests.get(f"https:/core-midterm.herokuapp.com//collection/{collection}").json()
 
 
 def get_transport_type(type):
     '''
     Calls the API to request a specific type of transport from all types in geo_transports collection
     '''
-    return requests.get(f"http://127.0.0.1:8000/transport_type/{type}").json()
+    return requests.get(f"https:/core-midterm.herokuapp.com//transport_type/{type}").json()
 
 
 def get_type_sample(type, params: dict):
@@ -22,7 +22,7 @@ def get_type_sample(type, params: dict):
     '''
     if not isinstance(params, dict):
         raise TypeError('Params must be a dictionary')
-    return requests.get(f"http://127.0.0.1:8000/sample/{type}", params=params).json()
+    return requests.get(f"https:/core-midterm.herokuapp.com//sample/{type}", params=params).json()
 
 
 # Function to make geoquery for the final part of the streamlit app
@@ -34,4 +34,4 @@ def make_geoquery(params):
     '''
     if not isinstance(params, dict):
         raise TypeError('Params must be a dictionary')
-    return requests.get("http://127.0.0.1:8000/geoquery", params=params).json()
+    return requests.get("https:/core-midterm.herokuapp.com//geoquery", params=params).json()
