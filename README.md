@@ -1,5 +1,7 @@
 # Midterm-project
 
+![](tp_barna.png)
+
 Author: Gonzalo España-Heredia Llanza
 
 This repo contains all code needed to replicate my personal mid-term project of the Big Data & ML bootcamp.
