@@ -13,6 +13,10 @@ The repo has 3 main parts:
 
 ## Launch the project locally
 
+**Important aspects**
+
+If you go to `streamlit/data_st/get_data.py` you will find the functions that are used to call the API and get the data for the streamlit app. If you look closely, all function have as URL the URL of the Heroku app created for the API. Leave this is you are going to connect to the API on the cloud, but if you want to launch the project to make changes to the API you must change the URL to your <localhost>:<desired_host>
+
 To launch the project locally, from the cli in the path of the repository:
 
 First, **launch the API**:
