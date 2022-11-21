@@ -1,6 +1,6 @@
 # Midterm-project
 
-![](tp_barna.png)
+![](imgs/tp_barna.jpg)
 
 Author: Gonzalo España-Heredia Llanza
 
