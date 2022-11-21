@@ -7,4 +7,4 @@ ADD ./ ./
 RUN pip install -r requirements.txt
 
 # 
-CMD ["./run_api-prod.sh"]
+CMD ["./run_streamlit-prod.sh"]
