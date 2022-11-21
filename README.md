@@ -4,7 +4,7 @@
 
 Author: Gonzalo España-Heredia Llanza
 
-This repo contains all code needed to replicate my personal mid-term project of the Big Data & ML bootcamp.
+This repo contains all code needed to replicate my personal mid-term project of the Big Data & ML bootcamp. ![Logo](https://www.corecode.school/branding/logo_app.png)
 
 The repo has 3 main parts:
 - Data cleaning
