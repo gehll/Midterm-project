@@ -38,13 +38,13 @@ cd streamlit
  
 ## Data cleaning
 
-The data used can be found in [kaggle](https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets) on a dataset with data about the city of Barcelona. For this project only two files are needed: transports.csv and bus_stops.csv.
+The data used can be found in [kaggle](https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets) on a dataset with data about the city of Barcelona. For this project only two files are needed: **transports.csv** and **bus_stops.csv**.
 
 **transports.csv** contains data about different types of public transports (subway, railway, cableway, tramvia, etc) and **bus_stops.csv** contains data about the different types of bus stations (day bus, night bus, airport bus, bus stations). 
 
-During the cleaning, the goal was to concatenate both datasets so it was necessary to rename columns, have a consistent format across both datasets, clean data, create new columns and transform the columns with the coordinates to one single column with *Point* format and 2D-index for spatial queries. To access the data through the API, the data was stored in Mongodb Atlas, mainly because the goal was to make geoqueries later on the streamlit. Thus it is better to work with mongo than with a relational database. After the data was cleaned, a blank collection was filled with the clean data, this collection is called **geo_transports**.
+During the cleaning, the goal was to concatenate both datasets so it was necessary to rename columns, have a consistent format across both datasets, clean data, create new columns and transform the columns with the coordinates to one single column with *Point* format and 2D-index for spatial queries. To access the data through the API, the data was stored in Mongodb Atlas, mainly because the goal was to make geoqueries later on the streamlit app. Thus it is better to work with mongo than with a relational database. After the data was cleaned, a blank collection was filled with the clean data, this collection is called **geo_transports** inside the database **BCN**.
   
- Inside the `data`folder you can find 3 `.csv` files. Two are the ones we mentioned, the other one is the resulting dataset from cleaning and concatenating the data. This dataset is later used to fill the blank collection *geo_transports* and work with data in geoJSON format. You can find all the cleaning process [here](https://github.com/gehll/Midterm-project/blob/main/clean_data/clean.ipynb).
+Inside the `data` folder you can find 3 `.csv` files. Two are the ones we mentioned, the other one is the resulting dataset from cleaning and concatenating the data. This dataset is later used to fill the blank collection *geo_transports* to work with data in geoJSON format. You can find all the cleaning process [here](https://github.com/gehll/Midterm-project/blob/main/clean_data/clean.ipynb).
 
 ## API
 
@@ -162,7 +162,4 @@ After building the image, deploy it on Heroku:
 ```bash
 ./deploy.sh
 ```
-
-**It is important that you change the URL to on the functions that will feed the streamlit app with data.**
-**To run the project locally, just put you localhost and desired port on the URL. To connect with the API on the cloud, you must put the URL to the Heroku app you just created.**
 
