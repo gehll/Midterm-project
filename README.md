@@ -13,16 +13,16 @@ The repo has 3 main parts:
 
 ## Launch the project
 
-From the cli in the path of the repository:
+To launch the project locally, from the cli in the path of the repository:
 
-**To launch the API**
+First, **launch the API**:
 
 ```bash
 cd api
 ./run_api-develop.sh
 ```
 
-**o laucnh the streamlit app**
+Then, **laucnh the streamlit app**
 
 ```bash
 cd streamlit
@@ -39,7 +39,7 @@ During the cleaning, the goal was to concatenate both datasets so it was necessa
 
 ## API
 
-The API is used as the connection between Mongodb Atlas and the streamlit app. There are several endpoints to access the data in the collection (geo_transports). All the endpoints can be found at `api/routers/endpoints.py`.
+The API is used as the connection between Mongodb Atlas and the streamlit app. There are several endpoints to access the data in the collection (geo_transports). All the endpoints can be found at `api/routers/endpoints.py` [here](https://github.com/gehll/Midterm-project/blob/BACKUP/api/Routers/endpoints.py).
 
 ## Streamlit
 
@@ -56,3 +56,11 @@ At the beginning of the streamlit, you can see a map of the city of Barcelon wit
 The next and last part is a map that shows the closests transport stations based on a query. The query asks you to enter some coordinates, the types of transport you would like to filter (maximum 2 types) and the desired lines from those types of transport. When filtering for the lines, the list can be quite long, especially if you select *Bus*. The reason of showing a list and choosing from the list instead of asking for the desired lines with text input, is because I suppose that most of the people don't know the names of the lines for each type of transport in Barcelona.
 
 After introducing the query parameters, a geoquery is made to display a map with the closest stations where your desired lines pass through. You will get the 5 closest stationf for each type of transports that you select.
+
+
+## API and Streamlit app in Heroku
+
+If you look inside `api` and `streamlit` folders, you will see that there is a `Dockerfile` and a `deploy.sh` in each folder. Both the API and the streamlit app have been developed an tested locally but they can be accessed in the cloud. Both haven been deployed in Heroku with a Docker image.
+
+- To access the API on the cloud: [https://core-midterm.herokuapp.com/](https://core-midterm.herokuapp.com/)
+- To access the streamlit app on the cloud: [https://core-midterm-streamlit.herokuapp.com/](https://core-midterm-streamlit.herokuapp.com/)
