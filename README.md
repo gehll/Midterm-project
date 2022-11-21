@@ -13,6 +13,14 @@ The repo has 3 main parts:
 - [API](https://github.com/gehll/Midterm-project/tree/main/api)
 - [Streamlit app](https://github.com/gehll/Midterm-project/tree/main/streamlit)
 
+## Overview
+
+The data is from Kaggle and it has been cleaned before uploading it to Mongodb Atlas. An API has been created to connect with Mongodb Atlas and retreive data with GET requests. Last, I have used Streamlit to create an app to display the data an create and interactive map that shows geoqueries.
+
+To summarise: The data is stored on the cloud in Mongodb Atlas, we access the data via an API making GET requests to the API from the streamlit app. The streamlit app is the final interface that displays the data.
+
+You can copy the repo and launch it locally, but also, I have deployed the API and the streamlit in Heroku with a Docker image. You can find all the details below.
+
 ## Launch the project locally
 
 **Important aspects**
