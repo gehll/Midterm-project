@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-APP_NAME="core-midterm"
+APP_NAME="core-midterm-streamlit"
 
 # Login to Heroku container registry
 heroku container:login

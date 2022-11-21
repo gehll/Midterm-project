@@ -8,8 +8,8 @@ from clean_raw import clean_raw
 from useful.get_lines import get_lines
 from utils import create_marker
 from create_pdf import PDF
-import io
-from PIL import Image
+#import io
+#from PIL import Image
 
 
 # ADD title and welcome message
