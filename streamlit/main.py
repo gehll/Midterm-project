@@ -188,25 +188,25 @@ if st.checkbox('Check the box if you want to seach for the nearest stations',
 ########################################################################################
 ########################################################################################
 
-st.subheader('Downdload the results as PDF')
+#st.subheader('Downdload the results as PDF')
 
 # --- Checkout to download PDF
 
-download = st.checkbox('Download as PDF')
+#download = st.checkbox('Download as PDF')
 
-if download:
+# if download:
 
     # Instantiation of inherited class
-    pdf = PDF()
-    pdf.alias_nb_pages()
-    pdf.add_page()
-    pdf.set_font('Times', '', 12)
+    #pdf = PDF()
+    # pdf.alias_nb_pages()
+    # pdf.add_page()
+    #pdf.set_font('Times', '', 12)
 
-    img_data = mapa_coords._to_png(5)
-    img = Image.open(io.BytesIO(img_data))
-    img.save('coords.png')
+    #img_data = mapa_coords._to_png(5)
+    #img = Image.open(io.BytesIO(img_data))
+    # img.save('coords.png')
 
-    pdf.output('CORE.pdf', 'F')
+    #pdf.output('CORE.pdf', 'F')
 
     # Button to download pdf
 
